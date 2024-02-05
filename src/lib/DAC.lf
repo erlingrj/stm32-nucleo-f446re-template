@@ -1,0 +1,46 @@
+target C {
+  single-threaded: true,
+  platform: {
+    name: "stm32",
+    board: "F446RE"
+  }
+}
+
+preamble {=
+  #include "stm32f4xx_hal.h"
+  #include <stdio.h>
+=}
+
+reactor DAC {
+  input setvalue: int32_t
+
+  preamble {=
+    DAC_HandleTypeDef hdac;
+    static void MX_DAC_Init(void) {
+        DAC_ChannelConfTypeDef sConfig = {0};
+        hdac.Instance = DAC1;
+        if (HAL_DAC_Init(&hdac) != HAL_OK) {
+          Error_Handler();
+        }
+
+        sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
+        sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
+        if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2) != HAL_OK) {
+          Error_Handler();
+        }
+    }
+  =}
+
+  reaction(startup) {=
+    MX_DAC_Init();
+    HAL_DAC_Start(&hdac, DAC_CHANNEL_2);
+  =}
+
+  reaction(setvalue) {=
+    if(setvalue->value < 0) {
+        HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, -setvalue->value);
+    } else {
+        HAL_DAC_SetValue(&hdac, DAC_CHANNEL_2, DAC_ALIGN_12B_R, setvalue->value);
+    }
+  =}
+}

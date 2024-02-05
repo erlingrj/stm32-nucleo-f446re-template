@@ -1,0 +1,40 @@
+target C {
+  single-threaded: true,
+  platform: {
+    name: "stm32",
+    board: "F446RE"
+  }
+}
+
+preamble {=
+  #include "stm32f4xx_hal.h"
+  #include "stm32_startup.h"
+  #include <stdio.h>
+=}
+
+reactor Serial {
+  input trigger: bool
+  output read: uint8_t*
+
+  preamble {=
+    extern UART_HandleTypeDef huart2;
+    uint8_t rx_data[6];
+    uint8_t rx_buffer[100];
+
+    void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+
+      printf("recieved %c \r\n", rx_data[0]);
+      HAL_UART_Receive_IT(&huart2, rx_data, 1);
+
+    }
+  =}
+
+  reaction(startup) {=
+    HAL_UART_Receive_IT(&huart2, rx_data, 1);
+  =}
+
+  reaction(trigger) -> read {=
+    printf("triggered: %c \r\n", rx_data[0]);
+    lf_set(read, rx_data);
+  =}
+}
