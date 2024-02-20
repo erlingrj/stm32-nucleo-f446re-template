@@ -1,7 +1,7 @@
 target C {
   single-threaded: true,
   platform: {
-    name: "stm32",
+    name: "STM32",
     board: "F446RE"
   }
 }
@@ -10,6 +10,9 @@ preamble {=
   #include <stdio.h>
   #include "stm32f4xx_hal.h"
   #include "stm32_startup.h"
+
+  #define LD5_Pin GPIO_PIN_5
+  #define LD5_GPIO_Port GPIOA
 =}
 
 // Import and/or declare reactor classes.
@@ -18,28 +21,34 @@ main reactor {
     static void MX_GPIO_Init(void) {
         GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-        __HAL_RCC_GPIOH_CLK_ENABLE();
         __HAL_RCC_GPIOA_CLK_ENABLE();
 
         /*Configure GPIO pin Output Level */
-        HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
+        HAL_GPIO_WritePin(LD5_GPIO_Port, LD5_Pin, GPIO_PIN_RESET);
 
         /*Configure GPIO pin : LD5_Pin */
-        GPIO_InitStruct.Pin = GPIO_PIN_4;
+        GPIO_InitStruct.Pin = LD5_Pin;
         GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+        HAL_GPIO_Init(LD5_GPIO_Port, &GPIO_InitStruct);
     }
   =}
 
+  timer t(0 ms, 1000 ms)
+  state count: int = 0
 
   reaction(startup) {=
     // Initialize GPIOs
     MX_GPIO_Init();
 
     // Initial print
-    printf("hello world\n");
+    printf("Running Startup\r\n");
   =}
 
+  reaction(t) {=
+    printf("hello world[%d]\r\n", self->count);
+    self->count = self->count + 1;
+    HAL_GPIO_TogglePin(LD5_GPIO_Port, LD5_Pin);
+  =}
 }
