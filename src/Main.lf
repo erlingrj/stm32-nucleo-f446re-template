@@ -1,9 +1,8 @@
 target C {
   single-threaded: true,
-  platform: {
-    name: "STM32",
-    board: "F446RE"
-  }
+  platform: "STM32F4",
+  cmake-include: "cmake/stm.cmake",
+  cmake-init-include: "cmake/stm-init.cmake",
 }
 
 preamble {=

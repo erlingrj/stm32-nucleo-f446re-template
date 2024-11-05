@@ -1,28 +1,25 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file         stm32f4xx_hal_msp.c
-  * @brief        This file provides code for the MSP Initialization
-  *               and de-Initialization codes.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2023 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file         stm32f4xx_hal_msp.c
+ * @brief        This file provides code for the MSP Initialization
+ *               and de-Initialization codes.
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2023 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
-// #include "STM_main.h"
-// #include "../../Main/include/Main/main.h"
-// #include "../../Main/include/Main/main.h"
+#include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -62,10 +59,9 @@
 
 /* USER CODE END 0 */
 /**
-  * Initializes the Global MSP.
-  */
-void HAL_MspInit(void)
-{
+ * Initializes the Global MSP.
+ */
+void HAL_MspInit(void) {
   /* USER CODE BEGIN MspInit 0 */
 
   /* USER CODE END MspInit 0 */
@@ -86,11 +82,9 @@ void HAL_MspInit(void)
  * @param hdac: DAC handle pointer
  * @retval None
  */
-void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
-{
+void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac) {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if (hdac->Instance == DAC)
-  {
+  if (hdac->Instance == DAC) {
     /* USER CODE BEGIN DAC_MspInit 0 */
 
     /* USER CODE END DAC_MspInit 0 */
@@ -118,10 +112,8 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
  * @param hdac: DAC handle pointer
  * @retval None
  */
-void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
-{
-  if (hdac->Instance == DAC)
-  {
+void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac) {
+  if (hdac->Instance == DAC) {
     /* USER CODE BEGIN DAC_MspDeInit 0 */
 
     /* USER CODE END DAC_MspDeInit 0 */
@@ -140,16 +132,14 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
 }
 
 /**
-* @brief UART MSP Initialization
-* This function configures the hardware resources used in this example
-* @param huart: UART handle pointer
-* @retval None
-*/
-void HAL_UART_MspInit(UART_HandleTypeDef *huart)
-{
+ * @brief UART MSP Initialization
+ * This function configures the hardware resources used in this example
+ * @param huart: UART handle pointer
+ * @retval None
+ */
+void HAL_UART_MspInit(UART_HandleTypeDef *huart) {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if (huart->Instance == USART2)
-  {
+  if (huart->Instance == USART2) {
     /* USER CODE BEGIN USART2_MspInit 0 */
 
     /* USER CODE END USART2_MspInit 0 */
@@ -183,10 +173,8 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
  * @param huart: UART handle pointer
  * @retval None
  */
-void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
-{
-  if (huart->Instance == USART2)
-  {
+void HAL_UART_MspDeInit(UART_HandleTypeDef *huart) {
+  if (huart->Instance == USART2) {
     /* USER CODE BEGIN USART2_MspDeInit 0 */
 
     /* USER CODE END USART2_MspDeInit 0 */
@@ -213,11 +201,9 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
  * @param htim_encoder: TIM_Encoder handle pointer
  * @retval None
  */
-void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim_encoder)
-{
+void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim_encoder) {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  if (htim_encoder->Instance == TIM2)
-  {
+  if (htim_encoder->Instance == TIM2) {
     /* USER CODE BEGIN TIM2_MspInit 0 */
 
     /* USER CODE END TIM2_MspInit 0 */
@@ -248,10 +234,8 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim_encoder)
  * @param htim_encoder: TIM_Encoder handle pointer
  * @retval None
  */
-void HAL_TIM_Encoder_MspDeInit(TIM_HandleTypeDef *htim_encoder)
-{
-  if (htim_encoder->Instance == TIM2)
-  {
+void HAL_TIM_Encoder_MspDeInit(TIM_HandleTypeDef *htim_encoder) {
+  if (htim_encoder->Instance == TIM2) {
     /* USER CODE BEGIN TIM2_MspDeInit 0 */
 
     /* USER CODE END TIM2_MspDeInit 0 */
